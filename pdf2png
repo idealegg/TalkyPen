@@ -1,0 +1,22 @@
+-append:从上至下合并图像（Image Sequence Operator）
++append:从左至右合并图像（Image Sequence Operator）
+-flip： 垂直翻转
+-flop： 水平翻转
+
+如果pdf文件有n页的话，前面步骤会生成n张图片，图片名称分别为demo-0.png,demo-1.png,…,demo-(n-1).png，
+通过默认参数得到的图像分辨率为72dpi(dots per inch)，可以通过修改参数-density 实现：
+convert -density 600 1.pdf 1.png
+
+如果想要转换pdf中的某一页或者部分页，可以执行下面命令：
+convert -density 600 1.pdf[0] 1.png
+
+convert demo-*.png -append all.png
+
+因为在Windows中调用的是windows系统自检的sort命令，其语法在官网网址：
+https://docs.microsoft.com/en-us/previous-versions/windows/it-pro/windows-xp/bb491004(v=technet.10)
+进行了详细介绍，/+7表示从第7个字符开始作排序比较，Linux下是第6个开始比较，这点是有差别的。
+
+ls *.png|sort /+7 | convert @- -append all.png
+
+
+ImageMagick 调用 ghostscript
